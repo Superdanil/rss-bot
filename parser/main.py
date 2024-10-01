@@ -4,7 +4,8 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
-from routers import router as user_router
+from routers import users_router
+from routers import origins_router
 from core.settings import settings
 from core.models import db_helper, Base
 
@@ -22,8 +23,8 @@ async def lifespan(app: FastAPI):
 
 def create_app() -> FastAPI:
     app = FastAPI(title="Сервис мониторинга новостей", default_response_class=ORJSONResponse, lifespan=lifespan)
-    app.include_router(user_router)
-
+    app.include_router(users_router)
+    app.include_router(origins_router)
     return app
 
 

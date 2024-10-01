@@ -11,5 +11,5 @@ if TYPE_CHECKING:
 class Origin(Base):
     __tablename__ = "origins"
 
-    id: Mapped[int] = mapped_column(unique=True, primary_key=True)
+    rss_link: Mapped[str] = mapped_column(unique=True)
     users_details: Mapped[list["UserOriginAssociation"]] = relationship(back_populates="origin")

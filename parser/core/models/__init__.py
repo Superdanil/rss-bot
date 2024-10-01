@@ -3,3 +3,4 @@ from .base import *
 from .user import *
 from .origin import *
 from .user_origin_association import *
+from .news import *

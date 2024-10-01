@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING
+from uuid import UUID
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -11,6 +12,5 @@ if TYPE_CHECKING:
 class User(Base):
     __tablename__ = "users"
 
-    id: Mapped[int] = mapped_column(unique=True, primary_key=True)
     telegram_id: Mapped[int] = mapped_column(unique=True)
     origins_details: Mapped[list["UserOriginAssociation"]] = relationship(back_populates="user")

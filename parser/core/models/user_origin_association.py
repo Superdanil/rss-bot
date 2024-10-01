@@ -20,11 +20,10 @@ class UserOriginAssociation(Base):
         ),
     )
 
-    id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     origin_id: Mapped[int] = mapped_column(ForeignKey("origins.id"))
 
     # Association between UserOriginAssociation -> User
-    order: Mapped["User"] = relationship(back_populates="origins_details")
+    user: Mapped["User"] = relationship(back_populates="origins_details")
     # Association between UserOriginAssociation -> Origin
-    product: Mapped["Origin"] = relationship(back_populates="users_details")
+    origin: Mapped["Origin"] = relationship(back_populates="users_details")
