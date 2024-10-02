@@ -2,7 +2,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from parser.core.dtos import OriginDTO
+from database.core.dtos import OriginDTO
 
 
 class UserCreateDTO(BaseModel):

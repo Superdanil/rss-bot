@@ -30,5 +30,4 @@ if __name__ == "__main__":
     url = "https://iz.ru/xml/rss/all.xml"  # Замените на URL вашей RSS-ленты
     news = fetch_rss_feed(url)
     for item in news:
-    # print(f"Title: {item['title']}\nLink: {item['link']}\nPublished: {item['published']}\n")
-        print(item)
+        print(f"Title: {item['title']}\nLink: {item['link']}\nPublished: {item['published']}\n")

@@ -1,6 +1,9 @@
+from typing import TYPE_CHECKING
+
 from pydantic import BaseModel
 
-from origin_dto import OriginDTO
+if TYPE_CHECKING:
+    from database.core.dtos import OriginDTO
 
 
 class NewsDTO(BaseModel):
