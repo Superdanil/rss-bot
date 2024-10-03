@@ -2,8 +2,10 @@ from typing import Annotated
 
 from fastapi import Depends
 
-from ..repositories import UserRepository, OriginRepository, NewsRepository
+from ..repositories import UserRepository, SourceRepository, NewsRepository
+from ..repositories import UserSourceAssociationRepository
 
 IUserRepository = Annotated[UserRepository, Depends(UserRepository)]
-IOriginRepository = Annotated[OriginRepository, Depends(OriginRepository)]
+ISourceRepository = Annotated[SourceRepository, Depends(SourceRepository)]
+IUserSourceAssociationRepository = Annotated[UserSourceAssociationRepository, Depends(UserSourceAssociationRepository)]
 INewsRepository = Annotated[NewsRepository, Depends(NewsRepository)]

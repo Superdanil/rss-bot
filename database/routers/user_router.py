@@ -9,9 +9,9 @@ router = APIRouter(prefix="/users", tags=["users"])
 
 
 @router.post("", response_model=UserCreateDTO, status_code=HTTP_201_CREATED)
-async def create_user(service: IUserService, user_create: UserCreateDTO):
-    """"Эндпоинт регистрации пользователя"""
+async def create_user(service: IUserService, dto: UserCreateDTO):
+    """Эндпоинт регистрации пользователя"""
     try:
-        return await service.create(dto=user_create)
+        return await service.add_or_get_user(dto=dto)
     except AlreadyExistError as e:
         raise HTTPException(HTTP_400_BAD_REQUEST, str(e))

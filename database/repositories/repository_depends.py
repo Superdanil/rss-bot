@@ -1,8 +1,8 @@
 from typing import Annotated
 
 from fastapi import Depends
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from parser.core.models import db_helper
+from database.core.models import DatabaseHelper
+from database.core.settings import settings
 
-IAsyncSession = Annotated[AsyncSession, Depends(db_helper.session_getter)]
+IDBHelper = Annotated[DatabaseHelper, Depends(lambda: DatabaseHelper(url=str(settings.DB_URL)))]

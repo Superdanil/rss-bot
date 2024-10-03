@@ -16,7 +16,7 @@ def fetch_rss_feed(url: str) -> List[Dict[str, str]]:
     for entry in feed.entries:
         news_item = {
             'title': entry.title,
-            'link': entry.link,
+            'link': entry.url,
             'published': entry.published if 'published' in entry else None,
             'summary': entry.summary if 'summary' in entry else None,
         }

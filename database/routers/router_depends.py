@@ -2,8 +2,8 @@ from typing import Annotated
 
 from fastapi.params import Depends
 
-from database.services import OriginService, UserService, NewsService
+from database.services import SourceService, UserService, NewsService
 
 IUserService = Annotated[UserService, Depends(UserService)]
-IOriginService = Annotated[OriginService, Depends(OriginService)]
+ISourceService = Annotated[SourceService, Depends(SourceService)]
 INewsService = Annotated[NewsService, Depends(NewsService)]

@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine, async_sessionmaker, AsyncSession
@@ -19,9 +20,21 @@ class DatabaseHelper:
         """Закрывает сессию."""
         await self.engine.dispose()
 
+    @asynccontextmanager
     async def session_getter(self) -> AsyncGenerator[AsyncSession, None]:
         async with self.session_factory() as session:
-            yield session
+            try:
+                yield session
+            except Exception as e:
+                await self.rollback(session)
+                raise e
+            finally:
+                await session.close()
 
+    async def commit(self, session: AsyncSession):
+        """Коммитит изменения в сессии."""
+        await session.commit()
 
-db_helper = DatabaseHelper(url=str(settings.DB_URL))
+    async def rollback(self, session: AsyncSession):
+        """Откатывает изменения в сессии."""
+        await session.rollback()

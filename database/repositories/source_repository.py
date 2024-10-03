@@ -3,28 +3,28 @@ from sqlalchemy.exc import NoResultFound, SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing_extensions import Never
 
-from database.core.dtos import UserCreateDTO
-from database.core.models import Source, User
+from database.core.dtos.source_dto import SourceDTO
+from database.core.models import Source
 from database.repositories.repository_exceptions import RepositoryError
 
 
-class UserRepository:
-    model = User
+class SourceRepository:
+    model = Source
 
-    async def create(self, dto: UserCreateDTO, session: AsyncSession) -> Source | Never:
+    async def create(self, dto: SourceDTO, session: AsyncSession) -> Source | Never:
         """Создаёт запись новостного источника в БД."""
-        user = self.model(**dto.model_dump())
+        source = self.model(**dto.model_dump())
         try:
-            session.add(user)
-            return user
+            session.add(source)
+            return source
         except SQLAlchemyError as e:
             print(e)
             raise RepositoryError
 
-    async def get_by_telegram_id(self, telegram_id: int, session: AsyncSession) -> Source | None | Never:
-        """Получить пользователя по telegram_id. Если не найдено - вернет None."""
+    async def get_by_url(self, url: str, session: AsyncSession) -> Source | None | Never:
+        """Получить источник по URL. Если не найдено - вернет None."""
         try:
-            query = select(self.model).filter(self.model.telegram_id == telegram_id)
+            query = select(self.model).where(self.model.url == url)
             result = await session.execute(query)
             return result.scalar_one()
 

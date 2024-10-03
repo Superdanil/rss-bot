@@ -1,17 +1,17 @@
-from ..core.dtos import NewsDTO
-from .service_depends import IUserRepository
-from ..exceptions import AlreadyExistError
+from .service_depends import INewsRepository
+from database.core.dtos import NewsDTO
+from database.exceptions import AlreadyExistError
 
 
 class NewsService:
-    """Класс работы с пользователями."""
+    """Класс работы с новостями."""
 
-    def __init__(self, repository: NewsDTO):
+    def __init__(self, repository: INewsRepository):
         self.repository = repository
 
     async def create(self, dto: NewsDTO):
-        """Создаёт запись пользователя в БД."""
+        """Создаёт запись новости в БД."""
         try:
             return await self.repository.create(dto=dto)
         except AlreadyExistError:
-            raise AlreadyExistError("User already exist")
+            raise AlreadyExistError("News already exist")
