@@ -7,7 +7,12 @@ load_dotenv()
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=(".env", ".env.template"), env_file_encoding='utf-8', extra="allow")
 
-    BOT_TOKEN: str
+    DATABASE_HOST: str
+    DATABASE_PORT: int
+
+    @property
+    def database_url(self):
+        return f"http://{self.DATABASE_HOST}:{self.DATABASE_PORT}"
 
 
 settings = Settings()

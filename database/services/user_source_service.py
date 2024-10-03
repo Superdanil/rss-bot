@@ -1,35 +1,24 @@
-from uuid import UUID
-
-from database.core.models import UserSourceAssociation
-from database.repositories import IDBHelper, RepositoryError
-from database.routers.router_depends import IUserService, ISourceService
-from database.services.service_depends import IUserSourceAssociationRepository
+from database.core.dtos import UserReadDTO, SourceReadDTO
+from database.core.dtos.user_source_dto import UserSourceDTO
+from database.core.models import DatabaseHelper
+from database.services import UserService, SourceService
 
 
 class UserInteractor:
 
     def __init__(
             self,
-            user_service: IUserService,
-            source_service: ISourceService,
-            repository: IUserSourceAssociationRepository,
-            db_helper: IDBHelper
+            user_service: UserService,
+            source_service: SourceService,
+            db_helper: DatabaseHelper
     ):
         self._user_service = user_service
         self._source_service = source_service
-        self._repository = repository
         self._db_helper = db_helper
 
-    async def add_or_get_association(self, user_id: UUID, source_id: UUID):
-        try:
-            async with self._db_helper.session_getter() as session:
-                existing_association = await self._repository.get_association(user_id, source_id, session)
-
-            if existing_association:
-                return existing_association
-            new_association = UserSourceAssociation(user_id=user_id, source_id=source_id)
+    async def add_or_get_association(self, dto: UserSourceDTO):
+        async with self._db_helper.session_getter() as session:
+            user: UserReadDTO = await self._user_service.get_user(dto.telegram_id, session)
+            source: SourceReadDTO = await self._source_service.add_or_get_source(dto.source, session)
+            await self._user_service.add_association(user.id, source.id, session)
             await self._db_helper.commit(session)
-            return new_association
-
-        except RepositoryError as e:
-            raise e

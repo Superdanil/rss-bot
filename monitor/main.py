@@ -1,33 +1,35 @@
+import time
+
 import feedparser
-from typing import List, Dict
+import schedule
+
+from monitor.database_service import database_service
 
 
-def fetch_rss_feed(url: str) -> List[Dict[str, str]]:
-    """
-    Парсит RSS-ленту по заданному URL и возвращает список новостей.
-
-    :param url: URL RSS-ленты.
-    :return: Список словарей с новостями.
-    """
-    feed = feedparser.parse(url)  # Парсим RSS-ленту
+def parse_rss():
+    rss_sources = database_service.get_rss_sources()
     news_items = []
+    for source in rss_sources:
+        parsed_source = feedparser.parse(source)
 
-    # Проходим по всем записям в ленте
-    for entry in feed.entries:
-        news_item = {
-            'title': entry.title,
-            'link': entry.url,
-            'published': entry.published if 'published' in entry else None,
-            'summary': entry.summary if 'summary' in entry else None,
-        }
-        news_items.append(news_item)
+        if parsed_source.bozo:
+            print(f"Ошибка при парсинге {source}: {parsed_source.bozo_exception}")
+            continue
 
-    return news_items
+        print(f"Заголовки из {source}:")
+        for entry in parsed_source.entries:
+            news_item = {'title': entry.title, 'link': entry.link}
+            news_items.append(news_item)
+            print(f"- {news_item['title']} {news_item['link']}")
 
 
-# Пример использования функции
+# if __name__ == "__main__":
+#     parse_rss()
+
+
 if __name__ == "__main__":
-    url = "https://iz.ru/xml/rss/all.xml"  # Замените на URL вашей RSS-ленты
-    news = fetch_rss_feed(url)
-    for item in news:
-        print(f"Title: {item['title']}\nLink: {item['link']}\nPublished: {item['published']}\n")
+    # Запланировать выполнение функции раз в минуту
+    schedule.every(5).seconds.do(parse_rss)
+    while True:
+        schedule.run_pending()
+        # time.sleep(1)

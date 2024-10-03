@@ -10,13 +10,13 @@ router = Router()
 @router.message(CommandStart())
 async def start_message(message: types.Message):
     await message.answer(text=f"Доброго времени суток, {message.from_user.first_name}")
-    # async with aiohttp.ClientSession() as session:
-    #     await session.post(
-    #         url=f"{settings.database_url}/users",
-    #         headers={"Content-Type": "application/json"},
-    #         json={"telegram_id": message.from_user.id},
-    #     )
-    buttons = kb.create_main_menu_buttons()
+    async with aiohttp.ClientSession() as session:
+        await session.post(
+            url=f"{settings.database_url}/users",
+            headers={"Content-Type": "application/json"},
+            json={"telegram_id": message.from_user.id},
+        )
+    buttons = kb.create_menu_buttons()
     await message.answer("Прочитать новостную ленту:", reply_markup=buttons)
 
 

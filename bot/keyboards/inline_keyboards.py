@@ -1,17 +1,11 @@
-import locale
-
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, \
-    KeyboardButton
-
-# отображение даты на русском языке
-locale.setlocale(category=locale.LC_ALL, locale='ru_RU.UTF-8')
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
-def create_main_menu_buttons() -> InlineKeyboardMarkup:
+def create_menu_buttons() -> InlineKeyboardMarkup:
     """Создаёт кнопки главного меню."""
     btn_hours_news = InlineKeyboardButton(text='Получить новости за последний час', callback_data='HOURS NEWS')
     btn_days_news = InlineKeyboardButton(text='Получить новости за последние сутки', callback_data='DAYS NEWS')
-    btn_add_source = InlineKeyboardButton(text='Добавить источник', callback_data=f'GET SOURCES')
+    btn_add_source = InlineKeyboardButton(text='Добавить источник', callback_data='ADD SOURCE')
     bth_help = InlineKeyboardButton(text='Помощь', callback_data=f'HELP')
 
     first_row = [btn_hours_news]

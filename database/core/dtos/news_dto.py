@@ -1,9 +1,14 @@
+from datetime import datetime
+from uuid import UUID
+
 from pydantic import BaseModel
 
-from database.core.dtos.source_dto import SourceDTO
 
-
-class NewsDTO(BaseModel):
+class NewsCreateDTO(BaseModel):
     title: str
     url: str
-    origin: SourceDTO
+    source_id: UUID
+
+
+class NewsReadDTO(NewsCreateDTO):
+    created_at: datetime

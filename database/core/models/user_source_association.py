@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 class UserSourceAssociation(Base):
     __tablename__ = "user_source_association"
-    __table_args__ = (UniqueConstraint("user_id", "source_id", name="idx_unique_user_source"))
+    __table_args__ = (UniqueConstraint("user_id", "source_id", name="idx_unique_user_source"), )
 
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     source_id: Mapped[int] = mapped_column(ForeignKey("sources.id"))
