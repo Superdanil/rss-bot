@@ -3,16 +3,14 @@ FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR /app/monitor/
+WORKDIR /app/fastapi_app
 
-COPY ./bot/requirements.txt .
+COPY ./fastapi_app/requirements.txt .
 
 RUN useradd -U app && mkdir -p /app && chown -R app:app /app
 
 RUN pip install -r ./requirements.txt
 
-COPY ./bot/ .
+COPY ./fastapi_app/ .
 
-ENV PYTHONPATH "${PYTHONPATH}:/app/bot/"
-
-CMD ["sh", "-c", "python3 ./main.py"]
+ENV PYTHONPATH "${PYTHONPATH}:/app/fastapi_app/"

@@ -1,0 +1,10 @@
+aiohttp==3.10.8
+fastapi==0.111.0
+feedparser==6.0.11
+loguru==0.7.2
+pydantic==2.7.4
+pydantic-settings==2.3.3
+sqlalchemy[asyncio, postgresql-asyncpg]==2.0.30
+asyncpg
+uvicorn[standart]==0.30.1
+alembic==1.13.1

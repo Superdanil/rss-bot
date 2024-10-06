@@ -8,5 +8,39 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - ./pg_data:/var/lib/postgresql/data/
-    ports:
-      - "5432:5432"
+
+  bot:
+    build:
+      context: .
+      dockerfile: bot/Dockerfile
+    restart: always
+    container_name: bot-app
+    env_file: ./bot/.env
+    depends_on:
+      - fastapi_app
+
+  fastapi_app:
+    build:
+      context: .
+      dockerfile: fastapi_app/Dockerfile
+    command: bash -c "alembic upgrade head && python main.py"
+    restart: always
+    container_name: fastapi_app
+    env_file:
+      - ./fastapi_app/.env
+    volumes:
+      - type: bind
+        source: ./logs
+        target: /app/logs
+    depends_on:
+      - postgres
+
+  monitor:
+    build:
+      context: .
+      dockerfile: monitor/Dockerfile
+    restart: always
+    container_name: monitor-app
+    env_file: ./monitor/.env
+    depends_on:
+      - fastapi_app

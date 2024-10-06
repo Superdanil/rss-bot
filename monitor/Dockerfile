@@ -5,14 +5,14 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /app/monitor/
 
-COPY ./bot/requirements.txt .
+COPY ./monitor/requirements.txt .
 
 RUN useradd -U app && mkdir -p /app && chown -R app:app /app
 
 RUN pip install -r ./requirements.txt
 
-COPY ./bot/ .
+COPY ./monitor/ .
 
-ENV PYTHONPATH "${PYTHONPATH}:/app/bot/"
+ENV PYTHONPATH "${PYTHONPATH}:/app/monitor/"
 
 CMD ["sh", "-c", "python3 ./main.py"]

@@ -9,6 +9,12 @@ class Settings(BaseSettings):
 
     DATABASE_HOST: str
     DATABASE_PORT: int
+    WAITING: int
+
+    # ==========LOGGING==========
+    MONITOR_LOGFILE: str
+    ROTATION: str
+    COMPRESSION: str
 
     @property
     def database_url(self):
