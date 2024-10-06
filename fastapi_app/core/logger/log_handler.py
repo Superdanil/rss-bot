@@ -2,16 +2,15 @@ import sys
 
 from loguru import logger
 
-from settings import settings
+from core.settings import settings
 
 logger.remove()
 
 logger.add(
-    settings.MONITOR_LOGFILE,
+    sink=settings.LOGFILE,
+    format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}",
     rotation=settings.ROTATION,
     compression=settings.COMPRESSION,
-    format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}",
-    level="INFO",
 )
 
 logger.add(sys.stderr, level="DEBUG")

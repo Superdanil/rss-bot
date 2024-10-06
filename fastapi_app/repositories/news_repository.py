@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.dtos import NewsCreateDTO, NewsReadDTO
 from core.models import News, UserSourceAssociation, Source, User
-from exceptions import RepositoryError
+from core.exceptions import RepositoryError
 from repositories.base_repository import BaseRepository
 from repositories.repository_depends import IDBHelper, ISourceRepository
 
@@ -30,13 +30,13 @@ class NewsRepository(BaseRepository):
             return [self._get_dto(news, NewsReadDTO) for news in news_list]
 
         except SQLAlchemyError as e:
-            raise RepositoryError(e)
+            raise RepositoryError(e) from e
 
     async def get_by_telegram_id(
-            self,
-            telegram_id: int,
-            filter_date: datetime,
-            session: AsyncSession,
+        self,
+        telegram_id: int,
+        filter_date: datetime,
+        session: AsyncSession,
     ) -> list[NewsReadDTO]:
         """Возвращает новостную ленту пользователя за timedelta."""
         query = (
@@ -53,4 +53,4 @@ class NewsRepository(BaseRepository):
             return [self._get_dto(news, NewsReadDTO) for news in results]
 
         except SQLAlchemyError as e:
-            raise RepositoryError(e)
+            raise RepositoryError(e) from e

@@ -5,7 +5,7 @@ from typing_extensions import Never
 
 from core.dtos import SourceReadDTO
 from core.models import Source
-from exceptions import RepositoryError
+from core.exceptions import RepositoryError
 from repositories.base_repository import BaseRepository
 
 
@@ -21,7 +21,7 @@ class SourceRepository(BaseRepository):
             return self._get_dto(result, SourceReadDTO)
 
         except SQLAlchemyError as e:
-            raise RepositoryError(e)
+            raise RepositoryError(e) from e
 
     async def get_sources(self, session: AsyncSession, limit: int, offset: int) -> list[SourceReadDTO] | Never:
         """Получить источники по limit и offset. Если не найдено - вернет None."""
@@ -32,7 +32,7 @@ class SourceRepository(BaseRepository):
             return [self._get_dto(source, SourceReadDTO) for source in result]
 
         except SQLAlchemyError as e:
-            raise RepositoryError(e)
+            raise RepositoryError(e) from e
 
     async def get_by_url(self, url: str, session: AsyncSession) -> SourceReadDTO | None | Never:
         """Получить источник по URL. Если не найдено - вернет None."""
@@ -45,4 +45,4 @@ class SourceRepository(BaseRepository):
         except NoResultFound:
             return None
         except SQLAlchemyError as e:
-            raise RepositoryError(e)
+            raise RepositoryError(e) from e

@@ -19,7 +19,7 @@ async def add_source_done(message: Message, state: FSMContext):
     if result:
         await message.answer(text=f"Подписка на {message.text} успешно добавлена")
     else:
-        await message.answer(text=f"Неверные входные данные")
+        await message.answer(text="Неверные входные данные")
 
     await state.set_state(AddSourceState.ADD_SOURCE_DONE)
 
@@ -37,4 +37,4 @@ async def get_news(data: Message | CallbackQuery, hours: int) -> str:
 
 def serialize_newsfeed(newsfeed: list[dict]) -> str:
     """Форматирует список новостей."""
-    return "\n\n".join(f"{news['title']}\n{news['link']}" for news in newsfeed[:settings.NEWSFEED_LIMIT])
+    return "\n\n".join(f"{news['title']}\n{news['link']}" for news in newsfeed[: settings.NEWSFEED_LIMIT])

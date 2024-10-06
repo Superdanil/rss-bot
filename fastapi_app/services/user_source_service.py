@@ -5,13 +5,7 @@ from services import UserService, SourceService
 
 
 class UserInteractor:
-
-    def __init__(
-            self,
-            user_service: UserService,
-            source_service: SourceService,
-            db_helper: DatabaseHelper
-    ):
+    def __init__(self, user_service: UserService, source_service: SourceService, db_helper: DatabaseHelper):
         self._user_service = user_service
         self._source_service = source_service
         self._db_helper = db_helper

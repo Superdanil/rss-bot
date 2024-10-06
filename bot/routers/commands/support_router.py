@@ -23,6 +23,8 @@ async def start_message(message: types.Message):
 @router.message(Command("help"))
 async def help_message(message: types.Message):
     """Обрабатывает команду /help."""
-    await message.answer(text=f"/hour - новостная лента за последний час\n"
-                              f"/day - новостная лента за последние 24 часа\n"
-                              f"/add - добавить ссылку на новостной источник\n")
+    await message.answer(
+        text="/hour - новостная лента за последний час\n"
+        "/day - новостная лента за последние 24 часа\n"
+        "/add - добавить ссылку на новостной источник\n",
+    )

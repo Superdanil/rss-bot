@@ -7,7 +7,7 @@ from fastapi.responses import ORJSONResponse
 from core.models import db_helper
 from core.settings import settings
 from handlers import handle_exceptions
-from routers import users_router, origins_router, news_router
+from routers import users_router, source_router, news_router
 
 
 @asynccontextmanager
@@ -20,7 +20,7 @@ def create_app() -> FastAPI:
     app = FastAPI(title="Сервис мониторинга новостей", default_response_class=ORJSONResponse, lifespan=lifespan)
     handle_exceptions(app)
     app.include_router(users_router)
-    app.include_router(origins_router)
+    app.include_router(source_router)
     app.include_router(news_router)
     return app
 

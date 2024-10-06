@@ -6,7 +6,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
-from log_handler import record_error_log
+from core.logger.log_handler import logger
 
 
 def _exc_to_str(exc: Exception) -> str:
@@ -14,23 +14,21 @@ def _exc_to_str(exc: Exception) -> str:
 
 
 def error_json_response(status: int, error: Exception) -> JSONResponse:
-    return JSONResponse(
-        status_code=status,
-        content={"error": str(error)})
+    return JSONResponse(status_code=status, content={"error": str(error)})
 
 
 async def request_validation_exception_handler(_: Request, exc: Exception) -> Response:
-    record_error_log(exc)
+    logger.error(exc)
     return error_json_response(HTTPStatus.BAD_REQUEST, exc)
 
 
 async def pydantic_validation_exception_handler(_: Request, exc: Exception) -> Response:
-    record_error_log(exc)
+    logger.error(exc)
     return error_json_response(HTTPStatus.INTERNAL_SERVER_ERROR, exc)
 
 
 async def internal_error_exception_handler(_: Request, exc: Exception) -> Response:
-    record_error_log(exc)
+    logger.error(exc)
     return error_json_response(HTTPStatus.INTERNAL_SERVER_ERROR, exc)
 
 

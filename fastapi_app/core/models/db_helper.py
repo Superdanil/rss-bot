@@ -11,7 +11,7 @@ class DatabaseHelper:
             bind=self.engine,
             autoflush=False,
             autocommit=False,
-            expire_on_commit=False
+            expire_on_commit=False,
         )
 
     async def dispose(self) -> None:

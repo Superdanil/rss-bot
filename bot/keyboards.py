@@ -3,10 +3,10 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 def create_menu_buttons() -> InlineKeyboardMarkup:
     """Создаёт кнопки главного меню."""
-    btn_hours_news = InlineKeyboardButton(text='Получить новости за последний час', callback_data='HOURS NEWS')
-    btn_days_news = InlineKeyboardButton(text='Получить новости за последние сутки', callback_data='DAYS NEWS')
-    btn_add_source = InlineKeyboardButton(text='Добавить источник', callback_data='ADD SOURCE')
-    bth_help = InlineKeyboardButton(text='Помощь', callback_data=f'HELP')
+    btn_hours_news = InlineKeyboardButton(text="Получить новости за последний час", callback_data="HOURS NEWS")
+    btn_days_news = InlineKeyboardButton(text="Получить новости за последние сутки", callback_data="DAYS NEWS")
+    btn_add_source = InlineKeyboardButton(text="Добавить источник", callback_data="ADD SOURCE")
+    bth_help = InlineKeyboardButton(text="Помощь", callback_data="HELP")
 
     first_row = [btn_hours_news]
     second_row = [btn_days_news]

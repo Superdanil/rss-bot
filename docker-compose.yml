@@ -8,6 +8,11 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - ./pg_data:/var/lib/postgresql/data/
+    healthcheck:
+      test: pg_isready -d parser -U user
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   bot:
     build:
@@ -33,7 +38,8 @@ services:
         source: ./logs
         target: /app/logs
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   monitor:
     build:

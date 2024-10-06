@@ -5,7 +5,7 @@ from typing_extensions import Never
 
 from core.dtos import UserReadDTO
 from core.models import User
-from exceptions import RepositoryError
+from core.exceptions import RepositoryError
 from repositories.base_repository import BaseRepository
 
 
@@ -21,7 +21,7 @@ class UserRepository(BaseRepository):
             return self._get_dto(result, UserReadDTO)
 
         except SQLAlchemyError as e:
-            raise RepositoryError(e)
+            raise RepositoryError(e) from e
 
     async def get_by_telegram_id(self, telegram_id: int, session: AsyncSession) -> UserReadDTO | None | Never:
         """Получить пользователя по telegram_id. Если не найдено - вернет None."""
@@ -34,4 +34,4 @@ class UserRepository(BaseRepository):
         except NoResultFound:
             return None
         except SQLAlchemyError as e:
-            raise RepositoryError(e)
+            raise RepositoryError(e) from e

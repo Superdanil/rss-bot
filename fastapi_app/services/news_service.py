@@ -10,11 +10,7 @@ from .service_depends import INewsRepository
 class NewsService:
     """Класс работы с новостями."""
 
-    def __init__(
-            self,
-            repository: INewsRepository,
-            db_helper: IDBHelper
-    ):
+    def __init__(self, repository: INewsRepository, db_helper: IDBHelper):
         self._repository = repository
         self._db_helper = db_helper
 
@@ -27,7 +23,7 @@ class NewsService:
 
     async def get_users_news(self, telegram_id: int, hours: int) -> list[NewsReadDTO]:
         """Возвращает новостную ленту пользователя за timedelta часов."""
-        if hours not in (1, 24):
+        if hours not in {1, 24}:
             raise ValidationError("Только за 1 или 24 часа.")
         filter_date = datetime.now() - timedelta(hours=hours)
 

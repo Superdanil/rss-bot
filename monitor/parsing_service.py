@@ -23,13 +23,13 @@ async def parse_rss() -> None:
 
         one_minute_ago = datetime.datetime.now(datetime.UTC) - datetime.timedelta(minutes=600)
 
-        for source, parsed_source in zip(rss_sources, results):
+        for source, parsed_source in zip(rss_sources, results, strict=True):
             if parsed_source is None:
                 continue
 
             for entry in parsed_source.entries:
                 published_time = None
-                if hasattr(entry, 'published_parsed'):
+                if hasattr(entry, "published_parsed"):
                     published_time = datetime.datetime.fromtimestamp(time.mktime(entry.published_parsed), datetime.UTC)
 
                 if published_time and published_time > one_minute_ago:

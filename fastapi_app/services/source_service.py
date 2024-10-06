@@ -1,4 +1,5 @@
 import asyncio
+import http
 
 import aiohttp
 import feedparser
@@ -14,10 +15,10 @@ class SourceService:
     """Класс работы с источниками новостей."""
 
     def __init__(
-            self,
-            repository: ISourceRepository,
-            user_source_repository: IUserSourceAssociationRepository,
-            db_helper: IDBHelper,
+        self,
+        repository: ISourceRepository,
+        user_source_repository: IUserSourceAssociationRepository,
+        db_helper: IDBHelper,
     ):
         self._repository = repository
         self._user_source_repository = user_source_repository
@@ -35,7 +36,6 @@ class SourceService:
         return await self._repository.create(source, session)
 
     async def get_source_list(self, limit: int, offset: int) -> list[str]:
-
         async with self._db_helper.session_getter() as session:
             return await self._repository.get_sources(session, limit, offset)
 
@@ -43,11 +43,11 @@ class SourceService:
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(source, timeout=3) as response:
-                    if response.status != 200:
+                    if response.status != http.HTTPStatus.OK:
                         return False
 
-                    content_type = response.headers.get('Content-Type', '').lower()
-                    if 'xml' in content_type or 'rss' in content_type:
+                    content_type = response.headers.get("Content-Type", "").lower()
+                    if "xml" in content_type or "rss" in content_type:
                         return True
 
                     content = await response.text()

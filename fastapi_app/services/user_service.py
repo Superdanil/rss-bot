@@ -11,10 +11,10 @@ class UserService:
     """Класс работы с пользователями."""
 
     def __init__(
-            self,
-            repository: IUserRepository,
-            user_source_assoc_repository: IUserSourceAssociationRepository,
-            db_helper: IDBHelper,
+        self,
+        repository: IUserRepository,
+        user_source_assoc_repository: IUserSourceAssociationRepository,
+        db_helper: IDBHelper,
     ):
         self._repository = repository
         self._user_source_assoc_repository = user_source_assoc_repository
