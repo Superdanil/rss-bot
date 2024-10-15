@@ -15,6 +15,7 @@ feedparser = "^6.0.11"
 aiohttp = "^3.10.8"
 schedule = "^1.2.2"
 loguru = "^0.7.2"
+mypy = "^1.11.2"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "0.6.8"
@@ -67,3 +68,28 @@ quote-style = "double"
 indent-style = "space"
 skip-magic-trailing-comma = false
 line-ending = "auto"
+
+[tool.mypy]
+warn_return_any = true
+warn_no_return = false
+warn_unused_configs = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+pretty = "True"
+enable_error_code = [
+    "ignore-without-code",
+]
+disable_error_code = [
+    "prop-decorator",
+]
+plugins = [
+    "pydantic.mypy",
+    "sqlalchemy.ext.mypy.plugin",
+]
+    [[tool.mypy.overrides]]
+    module = [
+        "src.migrations.*",
+        "auth_lib.*",
+    ]
+    ignore_errors = true
